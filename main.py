@@ -7,6 +7,8 @@ from Insurance.entity import config_entity
 from Insurance.components.data_ingestion import DataIngestion
 from Insurance.components.data_validation import DataValidation
 from Insurance.components.data_transformation import DataTransformation
+from Insurance.components.model_trainer import ModelTrainer
+
 
 
 
@@ -48,7 +50,11 @@ if __name__=="__main__":
         data_ingestion_artifact=data_ingestion_artifact)
         data_transformation_artifact = data_transformation.initiate_data_transformation()
 
-     
+        #model trainer
+        model_trainer_config = config_entity.ModelTrainerConfig(training_pipeline_config=training_pipeline_config)
+        model_trainer = ModelTrainer(model_trainer_config=model_trainer_config, data_transformation_artifact=data_transformation_artifact)
+        model_trainer_artifact = model_trainer.initiate_model_trainer()
+
      
      except Exception as e:
          print(e)
