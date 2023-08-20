@@ -38,13 +38,13 @@ class ModelEvaluation:
                 improved_accuracy=None)
                 logging.info(f"Model evaluation artifact: {model_eval_artifact}")
                 return model_eval_artifact
-        except Exception as e:
-            raise InsuranceException(e,sys)
-'''
+        
+
             logging.info("Finding location of transformer model and target encoder")
             transformer_path = self.model_resolver.get_latest_transformer_path()
             model_path = self.model_resolver.get_latest_model_path()
             target_encoder_path = self.model_resolver.get_latest_target_encoder_path()
+
 
             logging.info("Previous trained objects of transformer, model and target encoder")
             #Previous trained  objects
@@ -99,5 +99,7 @@ class ModelEvaluation:
             improved_accuracy=current_model_score-previous_model_score)
             logging.info(f"Model eval artifact: {model_eval_artifact}")
             return model_eval_artifact
-             '''
+        
+        except Exception as e:
+            raise InsuranceException(e,sys)    
         
