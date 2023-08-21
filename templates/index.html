@@ -1,0 +1,69 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Insurance Price Prediction</title>
+</head>
+<body>
+    <h1>Insurance Price Prediction</h1>
+    <form method="POST" action="/predict">
+        <label for="age">Age:</label>
+        <input type="number" name="age" required><br><br>
+        
+        <label for="sex">Sex:</label>
+        <select name="sex" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select><br><br>
+        
+        <label for="bmi">BMI:</label>
+        <input type="number" name="bmi" step="0.01" required><br><br>
+        
+        <label for="children">Number of Children:</label>
+        <input type="number" name="children" required><br><br>
+        
+        <label for="smoker">Smoker:</label>
+        <select name="smoker" required>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select><br><br>
+        
+        <label for="region">Region:</label>
+        <select name="region" required>
+            <option value="southwest">Southwest</option>
+            <option value="southeast">Southeast</option>
+            <option value="northwest">Northwest</option>
+            <option value="northeast">Northeast</option>
+        </select><br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+    <p>Prediction: <span id="prediction"></span></p>
+
+    <script>
+        document.querySelector("form").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const age = parseFloat(document.querySelector("input[name='age']").value);
+            const sex = document.querySelector("select[name='sex']").value;
+            const bmi = parseFloat(document.querySelector("input[name='bmi']").value);
+            const children = parseInt(document.querySelector("input[name='children']").value);
+            const smoker = document.querySelector("select[name='smoker']").value;
+            const region = document.querySelector("select[name='region']").value;
+
+            fetch("/predict", {
+                method: "POST",
+                body: new URLSearchParams({ age, sex, bmi, children, smoker, region }),
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("prediction").textContent = data.prediction.toFixed(2);
+                });
+        });
+    </script>
+</body>
+</html>
